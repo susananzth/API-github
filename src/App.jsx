@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import SearchForm from "./components/SearchForm";
 import RepoList from "./components/RepoList";
 import Pagination from "./components/Pagination";
-import "./index.css";
 
 function App() {
   const [repos, setRepos] = useState([]); // Estado para guardar la lista de repositorios
