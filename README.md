@@ -1,48 +1,27 @@
-# Node-JS 🤓
+# API GitHub 🧑‍💻
 
-Mi guía en el proceso de aprendizaje de node-js
+Proyecto de practica para consultar API pública de GitHub.
 
-## Comenzando 💪🚀
+## 🔧 Tecnologías utilizadas
 
-Estas instrucciones te permitirán obtener una copia del proyecto en funcionamiento en tu máquina local para propósitos de desarrollo y pruebas.
+Este proyecto fue construido utilizando las siguientes herramientas y tecnologías:
 
-### Pre-requisitos 📋
+* **HTML5**
+* **CSS3**
+* **[Vite](https://vite.dev/)** - Herramienta de desarrollo frontend.
+* **[React](https://es.react.dev/)** - Herramienta de código de JavaScript.
 
-_Que cosas necesitas para poner en marcha el proyecto y como instalarlos_
+## ✒️ Autor
 
-* Node js.  Ir a [nodejs.org](https://nodejs.org/es/) y seleccionar la versión TLS.
-* GIT [Link](https://git-scm.com/downloads)
+* **Susana Piñero** - _Desarrolladora BackEnd_
+    * **GitLab:** [@susananzth](https://gitlab.com/susananzth)
+    * **GitHub:** [@susananzth](https://github.com/susananzth)
 
-### Instalación 🔧
+## 📄 Licencia
 
-Paso a paso de lo que debes ejecutar para tener el proyecto ejecutandose
-
-Primero que nada, clic en Fork.
-
-Inicia el git dentro de la carpeta de tu preferencia:
-```
-git init
-```
-
-Luego, clona el repositorio dentro de la carpeta de tu servidor con el siguiente comando:
-```
-git clone https://github.com/susananzth/node-js.git
-```
-
-Instala dependencias dentro de la carpeta del repositorio
-```
-npm install
-```
-
-Listo 😁
-
-## Autores ✒️
-
-* **Susana Piñero** - *Frontend + Backend + Documentación* - GitLab: [susananzth](https://gitlab.com/susananzth) GitHub: [susananzth](https://github.com/susananzth)
+Este proyecto está bajo la Licencia **GNU General Public License v3.0**. Para más detalles, consulta el archivo [LICENSE.md](https://github.com/susananzth/API-github/blob/main/LICENSE).
 
 ## Expresiones de Gratitud 🎁
-
 * Comenta a otros sobre este proyecto 📢
-* Regalanos una estrella ⭐
-* Copia el proyecto en tu cuenta Fork
-* Invita una cerveza 🍺 o un café ☕ a alguien del equipo.
+* Regalame una estrella ⭐
+* Copia el proyecto en tu cuenta dando clic en Fork 😊
