@@ -1,5 +1,8 @@
 import { useState, useEffect } from "react";
-import "./App.css";
+import SearchForm from "./components/SearchForm";
+import RepoList from "./components/RepoList";
+import Pagination from "./components/Pagination";
+import "./index.css";
 
 function App() {
   const [repos, setRepos] = useState([]); // Estado para guardar la lista de repositorios
@@ -22,7 +25,9 @@ function App() {
 
     try {
       // Uso de la API de búsqueda de repositorios de GitHub que incluye parámetros de paginación
-      const response = await fetch(`https://api.github.com/search/repositories?q=${search}&per_page=${perPage}&page=${page}`);
+      const response = await fetch(
+        `https://api.github.com/search/repositories?q=${search}&per_page=${perPage}&page=${page}`
+      );
       const data = await response.json();
 
       // Guardo la lista de repositorios en el estado
@@ -30,7 +35,7 @@ function App() {
       // Guarda el número total de repositorios
       setTotalCount(data.total_count);
     } catch (error) {
-      console.error('Error al obtener los repositorios:', error);
+      console.error("Error al obtener los repositorios:", error);
     } finally {
       setIsLoading(false);
     }
@@ -49,36 +54,39 @@ function App() {
 
   // Lógica para manejar el cambio de página
   const handlePageChange = (newPage) => {
-    if (newPage > 0 && newPage <= Math.ceil(totalCount / perPage) && !isLoading) {
+    if (
+      newPage > 0 &&
+      newPage <= Math.ceil(totalCount / perPage) &&
+      !isLoading
+    ) {
       setPage(newPage);
     }
   };
 
-  // Calcular las páginas a mostrar en los botones
-  const maxPages = 3;
+  const handleSearchChange = (newSearch) => {
+    setSearch(newSearch);  // Actualiza el estado del buscador
+    setPage(1); // Reinicia la página a 1 cuando se cambia el buscador
+  };
+
   const totalPages = Math.ceil(totalCount / perPage);
-  const startPage = Math.max(1, page - 1);
-  const endPage = Math.min(totalPages, startPage + maxPages - 1);
-  const pageNumbers = Array.from({ length: endPage - startPage + 1 }, (_, i) => startPage + i);
 
   return (
-    <div className="App">
-      <h1>Buscador de Repositorios de GitHub</h1>
-      <input
-        type="text"
-        placeholder="Escribe el nombre de un repositorio..."
-        value={search}
-        onChange={(e) => {
-          setSearch(e.target.value); // Actualiza el estado del buscador
-          setPage(1); // Reinicia la página a 1 cuando se cambia el buscador
-        }}
-      />
+    <div className="container mx-auto p-4 md:p-8">
+      <h1 className="text-4xl font-bold text-center my-8 text-gray-800">
+        Buscador de Repositorios de GitHub
+      </h1>
 
-      <div className="info-bar">
+      <div className="flex justify-center mb-6">
+        <SearchForm search={search} onSearchChange={handleSearchChange} />
+      </div>
+
+      <div className="flex flex-col md:flex-row justify-between items-center mb-6">
         {repos.length > 0 && (
           <>
-            <p>Mostrando {repos.length} de {totalCount} resultados</p>
-            <label>
+            <p className="text-gray-600 mb-2 md:mb-0">
+              Mostrando {repos.length} de {totalCount} resultados
+            </p>
+            <label className="text-gray-600">
               Resultados por página:
               <select
                 value={perPage}
@@ -86,6 +94,7 @@ function App() {
                   setPerPage(Number(e.target.value));
                   setPage(1); // Reinicia la página a 1 cuando se cambia la cantidad de resultados
                 }}
+                className="ml-2 py-1 px-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
               >
                 <option value="10">10</option>
                 <option value="20">20</option>
@@ -96,54 +105,13 @@ function App() {
         )}
       </div>
 
-      <div className="repo-list">
-        {isLoading ? (
-          <p>Cargando repositorios...</p>
-        ) : (
-          repos.length > 0 ? (
-            <ul>
-              {repos.map((repo) => (
-                <li key={repo.id}>
-                  <a href={repo.html_url} target="_blank" rel="noopener noreferrer">
-                    {repo.name}
-                  </a>
-                  <p>{repo.description}</p>
-                </li>
-              ))}
-            </ul>
-          ) : (
-            <p>No se encontraron repositorios. ¡Intenta buscar algo!</p>
-          )
-        )}
-      </div>
-      {/* Interfaz de Paginación */}
-      {totalPages > 1 && (
-        <div className="pagination">
-          <button
-            onClick={() => handlePageChange(page - 1)}
-            disabled={page === 1}
-          >
-            &lt;
-          </button>
-          
-          {pageNumbers.map(p => (
-            <button
-              key={p}
-              onClick={() => handlePageChange(p)}
-              className={p === page ? 'active' : ''}
-            >
-              {p}
-            </button>
-          ))}
+      <RepoList repos={repos} isLoading={isLoading} />
 
-          <button
-            onClick={() => handlePageChange(page + 1)}
-            disabled={page === totalPages}
-          >
-            &gt;
-          </button>
-        </div>
-      )}
+      <Pagination
+        page={page}
+        totalPages={totalPages}
+        handlePageChange={handlePageChange}
+      />
     </div>
   );
 }
