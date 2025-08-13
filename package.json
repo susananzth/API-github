@@ -2,7 +2,7 @@
   "name": "API-github",
   "private": true,
   "version": "0.0.0",
-  "homepage": "https://susananzth.github.io/API-github",
+  "homepage": "https://susananzth.com/API-github",
   "type": "module",
   "scripts": {
     "dev": "vite",
