@@ -2,6 +2,10 @@
 
 Proyecto de practica para consultar API pública de GitHub.
 
+Ver el proyecto en [susananzth.com/API-github](https://susananzth.com/API-github)
+
+![Captura de pantalla del proyecto](public/captura-api-github.jpg "Captura de pantalla del proyecto")
+
 ## 🔧 Tecnologías utilizadas
 
 Este proyecto fue construido utilizando las siguientes herramientas y tecnologías:
