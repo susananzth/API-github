@@ -23,7 +23,7 @@ const Pagination = ({ page, totalPages, handlePageChange }) => {
       <button
         onClick={() => handlePageChange(page - 1)}
         disabled={page === 1}
-        className="py-2 px-4 rounded-lg bg-gray-200 hover:bg-gray-300 disabled:opacity-50 disabled:cursor-not-allowed"
+        className="py-2 px-4 rounded-lg bg-gray-200 dark:bg-gray-700 dark:text-white hover:bg-gray-300 dark:hover:bg-gray-600 disabled:opacity-50 disabled:cursor-not-allowed"
       >
         <FontAwesomeIcon icon={faChevronLeft} />
       </button>
@@ -34,8 +34,8 @@ const Pagination = ({ page, totalPages, handlePageChange }) => {
           onClick={() => handlePageChange(p)}
           className={`py-2 px-4 rounded-lg ${
             p === page
-              ? "bg-blue-600 text-white"
-              : "bg-gray-200 hover:bg-gray-300"
+              ? "bg-[#4B0082] text-white"
+              : "bg-gray-200 dark:bg-gray-700 dark:text-white hover:bg-gray-300 dark:hover:bg-gray-600"
           }`}
         >
           {p}
@@ -45,7 +45,7 @@ const Pagination = ({ page, totalPages, handlePageChange }) => {
       <button
         onClick={() => handlePageChange(page + 1)}
         disabled={page === totalPages}
-        className="py-2 px-4 rounded-lg bg-gray-200 hover:bg-gray-300 disabled:opacity-50 disabled:cursor-not-allowed"
+        className="py-2 px-4 rounded-lg bg-gray-200 dark:bg-gray-700 dark:text-white hover:bg-gray-300 dark:hover:bg-gray-600 disabled:opacity-50 disabled:cursor-not-allowed"
       >
         <FontAwesomeIcon icon={faChevronRight} />
       </button>
