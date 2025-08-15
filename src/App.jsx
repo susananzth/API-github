@@ -2,6 +2,8 @@ import { useState, useEffect } from "react";
 import SearchForm from "./components/SearchForm";
 import RepoList from "./components/RepoList";
 import Pagination from "./components/Pagination";
+import Navbar from "./components/Navbar";
+import Footer from "./components/Footer";
 
 function App() {
   const [repos, setRepos] = useState([]); // Estado para guardar la lista de repositorios
@@ -10,6 +12,32 @@ function App() {
   const [perPage, setPerPage] = useState(10); // Almacena la cantidad de repos por página
   const [totalCount, setTotalCount] = useState(0); // Almacena el número total de resultados
   const [isLoading, setIsLoading] = useState(false); // Indica si la petición está en curso
+
+  // Nuevo estado para el modo oscuro
+  const [isDarkMode, setIsDarkMode] = useState(() => {
+    // Leer el tema preferido del sistema o de localStorage
+    const savedTheme = localStorage.getItem("theme");
+    if (savedTheme) {
+      return savedTheme === "dark";
+    }
+    return window.matchMedia("(prefers-color-scheme: dark)").matches;
+  });
+
+  // Efecto para aplicar la clase 'dark' al <html>
+  useEffect(() => {
+    if (isDarkMode) {
+      document.documentElement.classList.add("dark");
+      localStorage.setItem("theme", "dark");
+    } else {
+      document.documentElement.classList.remove("dark");
+      localStorage.setItem("theme", "light");
+    }
+  }, [isDarkMode]);
+
+  // Función para alternar el modo oscuro
+  const toggleDarkMode = () => {
+    setIsDarkMode(!isDarkMode);
+  };
 
   // Función para obtener los repositorios de la API de GitHub
   const fetchRepos = async () => {
@@ -70,47 +98,51 @@ function App() {
   const totalPages = Math.ceil(totalCount / perPage);
 
   return (
-    <div className="container mx-auto p-4 md:p-8">
-      <h1 className="text-4xl font-bold text-center my-8 text-gray-800">
-        Buscador de Repositorios de GitHub
-      </h1>
+    <div className="flex flex-col min-h-screen bg-gray-100 dark:bg-gray-900 transition-colors duration-300">
+      <Navbar isDarkMode={isDarkMode} toggleDarkMode={toggleDarkMode} />
+      <div className="container mx-auto p-4 md:p-8 flex-grow">
+        <h1 className="text-4xl font-bold text-center my-8 text-gray-800 dark:text-gray-200">
+          Buscador de Repositorios de GitHub
+        </h1>
 
-      <div className="flex justify-center mb-6">
-        <SearchForm search={search} onSearchChange={handleSearchChange} />
+        <div className="flex justify-center mb-6">
+          <SearchForm search={search} onSearchChange={handleSearchChange} />
+        </div>
+
+        <div className="flex flex-col md:flex-row justify-between items-center mb-6">
+          {repos.length > 0 && (
+            <>
+              <p className="text-gray-600 dark:text-gray-400 mb-2 md:mb-0">
+                Mostrando {repos.length} de {totalCount} resultados
+              </p>
+              <label className="text-gray-600 dark:text-gray-400">
+                Resultados por página:
+                <select
+                  value={perPage}
+                  onChange={(e) => {
+                    setPerPage(Number(e.target.value));
+                    setPage(1); // Reinicia la página a 1 cuando se cambia la cantidad de resultados
+                  }}
+                  className="ml-2 py-1 px-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-700 dark:text-white"
+                >
+                  <option value="10">10</option>
+                  <option value="20">20</option>
+                  <option value="30">30</option>
+                </select>
+              </label>
+            </>
+          )}
+        </div>
+
+        <RepoList repos={repos} isLoading={isLoading} />
+
+        <Pagination
+          page={page}
+          totalPages={totalPages}
+          handlePageChange={handlePageChange}
+        />
       </div>
-
-      <div className="flex flex-col md:flex-row justify-between items-center mb-6">
-        {repos.length > 0 && (
-          <>
-            <p className="text-gray-600 mb-2 md:mb-0">
-              Mostrando {repos.length} de {totalCount} resultados
-            </p>
-            <label className="text-gray-600">
-              Resultados por página:
-              <select
-                value={perPage}
-                onChange={(e) => {
-                  setPerPage(Number(e.target.value));
-                  setPage(1); // Reinicia la página a 1 cuando se cambia la cantidad de resultados
-                }}
-                className="ml-2 py-1 px-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-              >
-                <option value="10">10</option>
-                <option value="20">20</option>
-                <option value="30">30</option>
-              </select>
-            </label>
-          </>
-        )}
-      </div>
-
-      <RepoList repos={repos} isLoading={isLoading} />
-
-      <Pagination
-        page={page}
-        totalPages={totalPages}
-        handlePageChange={handlePageChange}
-      />
+      <Footer />
     </div>
   );
 }
