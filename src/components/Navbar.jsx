@@ -1,7 +1,8 @@
 import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSun, faMoon } from "@fortawesome/free-solid-svg-icons";
-import logo from "/logo.png";
+
+const logoUrl = import.meta.env.BASE_URL + 'logo.png';
 
 const Navbar = ({ isDarkMode, toggleDarkMode }) => {
   return (
@@ -12,7 +13,7 @@ const Navbar = ({ isDarkMode, toggleDarkMode }) => {
           className="text-gray-800 dark:text-white text-2xl font-bold flex items-center"
         >
           <img
-            src={logo}
+            src={logoUrl}
             alt="Logo de la aplicación"
             className="w-8 h-8 mr-3"
           />
